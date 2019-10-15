@@ -1,4 +1,6 @@
 'use strict';
+var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
+
 
 function Cookieshop(shoplocation, min, max, avg) {
     this.shoplocation = shoplocation;
@@ -28,7 +30,7 @@ Cookieshop.prototype.randomInRange = function () {
 
 
 Cookieshop.prototype.calculatenumberofcookies = function () {
-    for (var i = 0; i < 14; i++) {
+    for (var i = 0; i < hours.length; i++) {
         var result1 = this.randomInRange(this.min, this.max);
         var cookiespurchased1 = Math.ceil(this.avg * result1);
         this.numberofcookiesperhour.push(cookiespurchased1);
@@ -51,7 +53,7 @@ console.log('Seattle', numberofcookiesperhour);
 var contentArea = document.getElementById('content-area');
 var cookietable = document.createElement('table');
 contentArea.appendChild(cookietable);
-var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
+// var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 
 
 function renderHeaderRow(table) {
@@ -139,7 +141,7 @@ function renderfooterRows(table) {
     var totalsperhour = document.createElement('td');
     HeaderRow.appendChild(totalsperhour);
     totalsperhour.textContent = 'Totals';
-    for (var i = 0; i < 14; i++) {
+    for (var i = 0; i < hours.length; i++) {
         var totalsperhours = document.createElement('td');
         HeaderRow.appendChild(totalsperhours);
         totalsperhours.textContent = seattle.numberofcookiesperhour[i] + tokyo.numberofcookiesperhour[i] + dubai.numberofcookiesperhour[i] + paris.numberofcookiesperhour[i] + lima.numberofcookiesperhour[i];
