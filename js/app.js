@@ -1,5 +1,5 @@
 'use strict';
-
+var footerRow ;
 
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 function Cookieshop(shoplocation, min, max, avg) {
@@ -9,6 +9,7 @@ function Cookieshop(shoplocation, min, max, avg) {
     this.avg = avg;
     this.total = 0;
     this.numberofcookiesperhour = [];
+    // this.calculatenumberofcookies ();
 
 };
 var locationsnames = [];
@@ -84,16 +85,17 @@ for (var i = 0; i < locationsnames.length; i++) {
 }
 
 function renderfooterRows(table) {
-    var HeaderRow = document.createElement('tr');
-    table.appendChild(HeaderRow);
+     footerRow = document.createElement('tr');
+    table.appendChild(footerRow);
+    //store a footer row in globle variable for later
     var totalsperhour = document.createElement('td');
-    HeaderRow.appendChild(totalsperhour);
+    footerRow.appendChild(totalsperhour);
     totalsperhour.textContent = 'Totals';
     var totaloftotal = 0;
     for (var hourIndex = 0; hourIndex < hours.length; hourIndex++) {
         var td = document.createElement('td');
 
-        HeaderRow.appendChild(td);
+        footerRow.appendChild(td);
 
         var totalHourSales = 0;
         for (var shopIndex = 0; shopIndex < locationsnames.length; shopIndex++) {
@@ -106,7 +108,7 @@ function renderfooterRows(table) {
     }
     var td = document.createElement('td');
 
-    HeaderRow.appendChild(td);
+    footerRow.appendChild(td);
 
     td.textContent = totaloftotal;
 }
@@ -125,8 +127,9 @@ function submitHandler(event) {
     console.log('avg', avg);
     var newlocation = new Cookieshop(shoplocation, min, max, avg);
     console.log('new location', newlocation)
+    newlocation.calculatenumberofcookies();
     locationsnames.push(newlocation);
-//    cookietable.removeChild(renderfooterRows);
+   cookietable.removeChild(footerRow);
     newlocation.renderDataRows();
     renderfooterRows(cookietable);
 };
