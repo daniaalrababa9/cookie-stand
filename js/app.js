@@ -60,7 +60,7 @@ function renderHeaderRow(table) {
     totalcookiesperlocation.textContent = 'Daily Location Total';
 }
 renderHeaderRow(cookietable);
-Cookieshop.prototype.renderDataRows = function (table) {
+Cookieshop.prototype.renderDataRows = function () {
     var dataRow = document.createElement('tr');
     cookietable.appendChild(dataRow);
 
