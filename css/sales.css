@@ -1,0 +1,61 @@
+body{
+    background-color:lightgray;  
+}
+tr:hover {background-color:#9b8f8f;} 
+
+table {
+    border-collapse: collapse;
+    font-family:Helvetica;
+  }
+  
+  table, td, th {
+    border: 1px solid black;
+    text-align: left;
+  }
+  th, td {
+    padding: 15px;
+  }
+  th {
+    background-color: rgb(224, 198, 198);
+    color: rgb(14, 119, 110);
+  }
+  input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+ button[type=submit] {
+     font-size:30px;
+    width: 100%;
+    background-color: rgb(198, 228, 199);
+    color: rgb(59, 7, 7)
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button[type=submit]:hover {
+    background-color: #f195ce;
+  }
+  
+  div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+ header  img {
+    float: right;
+  }
+  img {
+      margin-right: 250px;;
+  }
+  footer {
+      margin-left: 150px;
+  }
