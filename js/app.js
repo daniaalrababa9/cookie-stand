@@ -129,7 +129,7 @@ function submitHandler(event) {
     console.log('new location', newlocation)
     newlocation.calculatenumberofcookies();
     locationsnames.push(newlocation);
-   cookietable.removeChild(footerRow);
+//    cookietable.removeChild(footerRow);
     newlocation.renderDataRows();
     renderfooterRows(cookietable);
 };
