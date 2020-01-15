@@ -1,7 +1,8 @@
 'use strict';
-var footerRow ;
+var footerRow;
 
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
+
 function Cookieshop(shoplocation, min, max, avg) {
     this.shoplocation = shoplocation;
     this.min = min;
@@ -21,13 +22,13 @@ locationsnames.push(new Cookieshop('dubai', 11, 38, 3.7));
 locationsnames.push(new Cookieshop('paris', 20, 38, 2.3));
 locationsnames.push(new Cookieshop('lima', 2, 16, 4.6));
 
-Cookieshop.prototype.randomInRange = function () {
+Cookieshop.prototype.randomInRange = function() {
     var range = this.max - this.min;
     var rand = (Math.random() * range) + this.min;
     var randomnumber = Math.ceil(rand);
     return randomnumber;
 };
-Cookieshop.prototype.calculatenumberofcookies = function () {
+Cookieshop.prototype.calculatenumberofcookies = function() {
     for (var i = 0; i < hours.length; i++) {
         var result1 = this.randomInRange(this.min, this.max);
         var cookiespurchased1 = Math.ceil(this.avg * result1);
@@ -39,99 +40,78 @@ for (var i = 0; i < locationsnames.length; i++) {
     console.log('totaldata', locationsnames[i]);
     locationsnames[i].calculatenumberofcookies();
 }
+$('#content-area').html('<table></table>');
+let rowTable = $(`<tr></tr>`);
+let headerTable = $(`<th></th>`);
+let cellTable = $(`<td></td>`)
 
-var contentArea = document.getElementById('content-area');
-var cookietable = document.createElement('table');
-contentArea.appendChild(cookietable);
-function renderHeaderRow(table) {
 
-    var headerRow = document.createElement('tr');
-    table.appendChild(headerRow);
-    var Header = document.createElement('th');
-    headerRow.appendChild(Header);
-    Header.textContent = '     ';
-    for (var i = 0; i < hours.length; i++) {
-        var hoursstring = document.createElement('th');
-        headerRow.appendChild(hoursstring);
-        hoursstring.textContent = hours[i];
+Cookieshop.prototype.rows = function() {
+    $('table').append($(`<tr id= "${this.shoplocation}"><td>${this.shoplocation}</td></tr>`));
+
+    for (let i = 0; i < this.numberofcookiesperhour.length; i++) {
+        $(`#${this.shoplocation}`).append($(`<td>${this.numberofcookiesperhour[i]}</td>`))
     }
-    var totalcookiesperlocation = document.createElement('th');
-    headerRow.appendChild(totalcookiesperlocation);
-    totalcookiesperlocation.textContent = 'Daily Location Total';
+
+    $(`#${this.shoplocation}`).append($(`<td>${this.total}</td>`))
 }
-renderHeaderRow(cookietable);
-Cookieshop.prototype.renderDataRows = function () {
-    var dataRow = document.createElement('tr');
-    cookietable.appendChild(dataRow);
 
-    var shoplocationNames = document.createElement('th');
-    dataRow.appendChild(shoplocationNames);
-    shoplocationNames.textContent = this.shoplocation;
+function headerRow() {
+    $('table').append(rowTable.append(headerTable.text('   ')));
 
-    for (var i = 0; i < this.numberofcookiesperhour.length; i++) {
-
-        var cookiesperhour = document.createElement('td');
-        dataRow.appendChild(cookiesperhour);
-        cookiesperhour.textContent = this.numberofcookiesperhour[i];
+    for (let i = 0; i < hours.length; i++) {
+        $('tr').append($(`<th>${hours[i]}</th>`));
     }
-    var totalcookies = document.createElement('td');
-    dataRow.appendChild(totalcookies);
-    totalcookies.textContent = this.total;
+
+    $('tr').append($(`<th>Daily Location Total</th>`));
 };
-for (var i = 0; i < locationsnames.length; i++) {
+Cookieshop.prototype.render = function() {
+    $('table').append($(`<tr class= "${this.shoplocation}"><td>${this.shoplocation}</td></tr>`));
 
-    this.locationsnames[i].renderDataRows();
-
-}
-
-function renderfooterRows(table) {
-     footerRow = document.createElement('tr');
-    table.appendChild(footerRow);
-    //store a footer row in globle variable for later
-    var totalsperhour = document.createElement('td');
-    footerRow.appendChild(totalsperhour);
-    totalsperhour.textContent = 'Totals';
-    var totaloftotal = 0;
-    for (var hourIndex = 0; hourIndex < hours.length; hourIndex++) {
-        var td = document.createElement('td');
-
-        footerRow.appendChild(td);
-
-        var totalHourSales = 0;
-        for (var shopIndex = 0; shopIndex < locationsnames.length; shopIndex++) {
-            var shop = locationsnames[shopIndex];
-            totalHourSales += shop.numberofcookiesperhour[hourIndex];
-        }
-        td.textContent = totalHourSales;
-
-        totaloftotal += totalHourSales;
+    for (let i = 0; i < this.numberofcookiesperhour.length; i++) {
+        $(`.${this.shoplocation}`).append($(`<td>${this.numberofcookiesperhour[i]}</td>`))
     }
-    var td = document.createElement('td');
 
-    footerRow.appendChild(td);
-
-    td.textContent = totaloftotal;
+    $(`.${this.shoplocation}`).append($(`<td>${this.total}</td>`))
 }
-renderfooterRows(cookietable);
+
+function footerRow() {
+
+    $('table').append($(`<tr class="footer"><td>Total</td></tr>`));
+
+    let totals = 0;
+
+    for (let i = 0; i < hours.length; i++) {
+
+        var hourlyTotal = 0;
+        for (let j = 0; j < locationsnames.length; j++) {
+            hourlyTotal += locationsnames[j].numberofcookiesperhour[i]
+        }
+
+        $(`.footer`).append($(`<td>${hourlyTotal}</td>`))
+
+        totals += hourlyTotal
+    }
+
+    $(`.footer`).append($(`<td>${totals}</td>`))
+};
+headerRow()
+for (let i = 0; i < locationsnames.length; i++) {
+    let location = locationsnames[i];
+    location.render()
+}
+footerRow();
 
 
-function submitHandler(event) {
+$('#Addcookieshoplocation').submit(function(event) {
     event.preventDefault();
     var shoplocation = event.target.shoplocation.value;
-    console.log('shoplocation', shoplocation);
     var min = parseInt(event.target.min.value);
-    console.log('min', min);
-    var max =parseInt (event.target.max.value);
-    console.log('max', max);
+    var max = parseInt(event.target.max.value);
     var avg = parseFloat(event.target.avg.value);
-    console.log('avg', avg);
     var newlocation = new Cookieshop(shoplocation, min, max, avg);
-    console.log('new location', newlocation)
-    newlocation.calculatenumberofcookies();
     locationsnames.push(newlocation);
-//    cookietable.removeChild(footerRow);
-    newlocation.renderDataRows();
-    renderfooterRows(cookietable);
-};
-var newcookieform = document.getElementById("Addcookieshoplocation");
-newcookieform.addEventListener('submit', submitHandler);
+    newlocation.rows();
+    footerRow();
+
+})
